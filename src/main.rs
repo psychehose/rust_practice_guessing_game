@@ -1,12 +1,18 @@
 
+// 외부 라이브러리 코드 가져오기
+
+extern crate rand;
+
 // io 라이브러리를 스코프로 가져옴 -> 입출력에 관한
 // std라고 불리는 표준 라이브러리에 존재
 use std::io;
-
+use rand:: Rng;
 fn main() {
-
-    // Listing 2-1
     println!("Guess the number!");
+
+    let secret_number = rand::thread_rng().gen_range(1 .. 101);
+
+    println!("The secret number is: {} ", secret_number);
     println!("Please input your guess.");
 
     // 기본적으로 러스트는 변수 생성이 불변임
@@ -25,6 +31,8 @@ fn main() {
     // io::Result 인스턴스는 expect 메소드가 있음
     io::stdin().read_line(&mut guess)
         .expect("Failed to read line");
+
+    
 
     println!("Your guessed {}", guess);
 }
