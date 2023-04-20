@@ -14,8 +14,6 @@ fn main() {
 
     let secret_number = rand::thread_rng().gen_range(1 .. 101);
 
-    println!("The secret number is: {} ", secret_number);
-
     loop {
         println!("Please input your guess.");
 
@@ -42,8 +40,12 @@ fn main() {
         // trim은 처음과 끝 부분의 빈칸을 제거하는 함수
         // parse()는 문자열을 숫자형으로 파싱함.
         // 따라서 :u32처럼 정확한 타입을 적어야함
-        let guess: u32 = guess.trim().parse()
-            .expect("Please type a number");
+        // expect 메소드 호출을 match 표현식으로 바꾸는 것은 에러 핸들링의 기본적인 방법
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+            // .expect("Please type a number");
 
 
         println!("Your guessed {}", guess);
