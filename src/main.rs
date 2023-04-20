@@ -3,10 +3,12 @@
 
 extern crate rand;
 
+use std::cmp::Ordering;
 // io 라이브러리를 스코프로 가져옴 -> 입출력에 관한
 // std라고 불리는 표준 라이브러리에 존재
 use std::io;
 use rand:: Rng;
+
 fn main() {
     println!("Guess the number!");
 
@@ -32,7 +34,25 @@ fn main() {
     io::stdin().read_line(&mut guess)
         .expect("Failed to read line");
 
-    
+    // 이전에 있던 값을 가리는 것 허용
+    // trim을 사용하는 이유는 5를 입력하고 엔터를 칠 경우
+    // 5\n이기 때문
+    // trim은 처음과 끝 부분의 빈칸을 제거하는 함수
+    // parse()는 문자열을 숫자형으로 파싱함.
+    // 따라서 :u32처럼 정확한 타입을 적어야함
+    let guess: u32 = guess.trim().parse()
+        .expect("Please type a number");
+
 
     println!("Your guessed {}", guess);
+
+
+    // cmp 메소드는 두 값을 비교
+    // 비교하고 싶은 것의 참조자
+    // cmp는 Ordering의 열거형을 리턴ㅣ
+    match guess.cmp(&secret_number) {
+        Ordering:: Less => println!("Too small"),
+        Ordering:: Greater => println!("Too big"),
+        Ordering::Equal => println!("You win"),
+    }
 }
